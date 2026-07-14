@@ -23,9 +23,7 @@ class UserController extends Controller
 
     public function create()
     {
-        // Jika form tambah user pakai modal di halaman index, method ini
-        // tidak perlu dipanggil manual, tapi tetap wajib ada karena Route::resource.
-        return view('users.index');
+        return view('users.create');
     }
 
     public function store(Request $request)
@@ -44,7 +42,7 @@ class UserController extends Controller
             'role'     => $request->role,
         ]);
 
-        return back()->with('success', 'User berhasil ditambahkan.');
+        return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
     }
 
     public function show(User $user)
@@ -54,9 +52,6 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        // Jika edit juga lewat modal di index, sesuaikan agar
-        // return redirect ke index dengan data user untuk modal,
-        // atau buat view users.edit terpisah.
         return view('users.edit', compact('user'));
     }
 

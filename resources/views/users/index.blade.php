@@ -11,17 +11,36 @@
 
 <div class="p-6 space-y-6 max-w-[1400px] mx-auto font-[Inter]">
 
-    <div class="flex items-center gap-3.5 pb-4 border-b border-dashed border-stone-200">
-        <div class="p-2.5 bg-[#0B1220] text-teal-400 rounded-xl shrink-0">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 100-8 4 4 0 000 8zm6 4v-2a4 4 0 00-3-3.87m-9 0a4 4 0 00-3 3.87v2"></path>
+    <div class="flex items-center justify-between gap-3.5 pb-4 border-b border-dashed border-stone-200">
+        <div class="flex items-center gap-3.5">
+            <div class="p-2.5 bg-[#0B1220] text-teal-400 rounded-xl shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 100-8 4 4 0 000 8zm6 4v-2a4 4 0 00-3-3.87m-9 0a4 4 0 00-3 3.87v2"></path>
+                </svg>
+            </div>
+            <div>
+                <h2 class="font-display text-2xl font-semibold text-[#0B1220] tracking-tight">Manajemen Pengguna</h2>
+                <p class="text-xs text-stone-400 mt-1">Kelola akun, peran, dan hak akses pengguna sistem.</p>
+            </div>
+        </div>
+
+        <a href="{{ route('users.create') }}"
+           class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#0B1220] hover:bg-stone-800 text-white rounded-xl text-xs font-semibold transition shadow-sm shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
             </svg>
-        </div>
-        <div>
-            <h2 class="font-display text-2xl font-semibold text-[#0B1220] tracking-tight">Manajemen Pengguna</h2>
-            <p class="text-xs text-stone-400 mt-1">Kelola akun, peran, dan hak akses pengguna sistem.</p>
-        </div>
+            Tambah Pengguna
+        </a>
     </div>
+
+    @if(session('success'))
+        <div class="flex items-center gap-3 p-4 text-xs font-semibold text-emerald-800 bg-emerald-50/90 border border-emerald-200 rounded-2xl shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+            <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>{{ session('success') }}</span>
+        </div>
+    @endif
 
     <div class="bg-white border border-stone-200/70 rounded-2xl shadow-[0_1px_2px_rgba(0,0,0,0.04)] overflow-hidden">
 
@@ -105,7 +124,7 @@
         </div>
 
         <div class="p-4 border-t border-dashed border-stone-200">
-            {{ $users->links() }}
+            {{ $users->appends(request()->query())->links() }}
         </div>
     </div>
 </div>
