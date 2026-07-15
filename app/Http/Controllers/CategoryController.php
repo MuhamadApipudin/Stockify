@@ -10,6 +10,7 @@ class CategoryController extends Controller
     // Menampilkan daftar kategori
     public function index(Request $request)
     {
+
         $query = Category::query();
 
         if ($request->filled('search')) {
@@ -80,5 +81,50 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         return view('categories.edit', compact('category'));
+    }
+
+    // Hapus kategori secara massal (bulk)
+    public function bulkDelete(Request $request)
+    {
+        $validated = $request->validate([
+            'ids' => 'required|array|min:1',
+            'ids.*' => 'integer|distinct',
+        ]);
+
+        $ids = $validated['ids'];
+
+        $categories = Category::whereIn('id', $ids)->get();
+
+        $deleted = 0;
+        $skipped = 0;
+        $skippedIds = [];
+
+        foreach ($categories as $category) {
+            // Jika kategori masih dipakai produk, skip
+            if ($category->products()->count() > 0) {
+                $skipped++;
+                $skippedIds[] = $category->id;
+                continue;
+            }
+
+            $category->delete();
+            $deleted++;
+        }
+
+        if ($deleted > 0 && $skipped === 0) {
+            return redirect()->route('categories.index')->with('success', 'Kategori berhasil dihapus!');
+        }
+
+        if ($deleted > 0 && $skipped > 0) {
+            return redirect()->route('categories.index')->with(
+                'success',
+                "Kategori berhasil dihapus: {$deleted}. Tidak terhapus karena masih dipakai produk: {$skipped}."
+            );
+        }
+
+        return redirect()->route('categories.index')->with(
+            'error',
+            'Tidak ada kategori yang dihapus. Pastikan kategori yang dipilih tidak sedang digunakan oleh produk.'
+        );
     }
 }
