@@ -238,12 +238,17 @@
                 <input type="text" name="name" required value="{{ old('name') }}" placeholder="Contoh: PT. Logistik Nusantara"
                        class="w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition outline-none">
             </div>
-
             <div class="space-y-1">
-                <label class="text-xs font-mono font-bold text-stone-700 uppercase tracking-wider">Nomor HP / WhatsApp</label>
-                <input type="text" name="phone" value="{{ old('phone') }}" placeholder="0812xxxxxxx"
-                       class="w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition outline-none">
-            </div>
+    <label class="text-xs font-mono font-bold text-stone-700 uppercase tracking-wider">Nomor HP / WhatsApp <span class="text-rose-500">*</span></label>
+    <input type="text" 
+           name="phone" 
+           value="{{ old('phone') }}" 
+           placeholder="0812xxxxxxx"
+           oninput="this.value = this.value.replace(/[^0-9]/g, '')" 
+           maxlength="15"
+           required
+           class="w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition outline-none">
+</div>
 
             <div class="space-y-1">
                 <label class="text-xs font-mono font-bold text-stone-700 uppercase tracking-wider">Alamat Lengkap</label>
